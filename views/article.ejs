@@ -1,0 +1,12 @@
+<%- include partials/head %>
+
+<article class="uk-article">
+	<h3 class="uk-article-title"><%= article.title %></h3>
+	<span class="uk-article-meta">Author: <%= article.author %></span>
+	<p><%= article.body %></p>
+</article>
+<hr>
+<a href="#" class="uk-button uk-button-danger delete-article" data-id="<%= article._id %>">Delete</a>
+<a href="/article/edit/<%= article._id %>" class="uk-button uk-button-secondary">Edit Article</a>
+
+<%- include partials/footer %>

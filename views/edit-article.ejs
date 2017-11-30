@@ -1,23 +1,23 @@
 <%- include partials/head %>
 <div class="uk-container">
 <h2><%= title %></h2>
-<form method="post" action="/articles/add" class="uk-from-stacked">
+<form method="post" action="/articles/edit/<%= article._id %>" class="uk-from-stacked">
 	<div class="uk-margin-small">
 		<label class="uk-form-label">Title</label>	
 		<div class="uk-form-controls">
-			<input type="text" name="title" class="uk-input uk-width-medium">
+			<input type="text" name="title" class="uk-input uk-width-medium" value="<%= article.title %>">
 		</div><!-- /uk-form-controls -->
 	</div><!-- /uk-margin -->
 	<div class="uk-margin-small">
 		<label class="uk-form-label">Author</label>	
 		<div class="uk-form-controls">
-			<input type="text" name="author" class="uk-input uk-width-medium">
+			<input type="text" name="author" class="uk-input uk-width-medium" value="<%= article.author %>">
 		</div><!-- /uk-form-controls -->
 	</div><!-- /uk-margin -->
 	<div class="uk-margin-small">
 		<label class="uk-form-label">Body</label>
 		<div class="uk-form-controls">
-			<textarea name="body" rows="8" cols="40" class="uk-textarea"></textarea>
+			<textarea name="body" rows="8" cols="40" class="uk-textarea"><%= article.body %></textarea>
 		</div><!-- /uk-form-controls -->
 	</div><!-- /uk-margin -->
 	<input type="submit" value="Submit" class="uk-button uk-button-primary uk-margin-small-top">

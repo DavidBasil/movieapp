@@ -1,10 +1,14 @@
 <%- include partials/head %>
 
-<h1>Articles</h1>
-<ul>
-<% articles.forEach(function(article){ %>
-	<li><%= article.title %></li>	
-<% })%>
-</ul>
+<div class="uk-container">
+	<h1>Articles</h1>
+	<ul class="uk-list uk-list-divider">
+	<% articles.forEach(function(article){ %>
+		<li>
+			<a href="/article/<%= article._id %>"><%= article.title %></a>
+		</li>	
+	<% })%>
+	</ul>
+</div><!-- /uk-container -->
 
 <%- include partials/footer %>
