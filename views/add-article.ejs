@@ -1,3 +1,15 @@
 <%- include partials/head %>
 <h2><%= title %></h2>
+<form method="post" action="/articles/add">
+	<label>Title</label>	
+	<input type="text" name="title">
+	<br>
+	<label>Author</label>	
+	<input type="text" name="author">
+	<br>
+	<label>Body</label>
+	<textarea name="body" rows="8" cols="40"></textarea>
+	<br>
+	<input type="submit" value="Submit">
+</form>
 <%- include partials/footer %>

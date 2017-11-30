@@ -1,6 +1,10 @@
 <%- include partials/head %>
 
 <h1>Articles</h1>
-<p><%= title %></p>
+<ul>
+<% articles.forEach(function(article){ %>
+	<li><%= article.title %></li>	
+<% })%>
+</ul>
 
 <%- include partials/footer %>
