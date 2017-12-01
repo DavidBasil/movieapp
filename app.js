@@ -2,6 +2,9 @@ var express = require('express')
 var path = require('path')
 var mongoose = require('mongoose')
 var bodyParser = require('body-parser')
+var expressValidator = require('express-validator')
+var flash = require('connect-flash')
+var session = require('express-session')
 
 mongoose.connect('mongodb://localhost/movieapp')
 var db = mongoose.connection
@@ -33,6 +36,38 @@ app.use(express.static(path.join(__dirname, 'public')))
 // views
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
+
+// sessions
+app.use(session({
+	secret: 'my secret',
+	resave: false,
+	saveUninitialized: true,
+	cookie: { secure: true }
+}))
+
+// messages
+app.use(require('connect-flash')())
+app.use(function(req, res, next){
+	res.locals.messages = require('epxress-messages')(req, res)
+	next()
+})
+
+// validator
+app.use(expressValidator({
+	errorFormatter: function(param, msg, value){
+		var namespace = param.split('.'),
+			root = namespace.shift()
+			formParam = root
+		while(namespace.length){
+			formParam += '[' + namespace.shift() + ']'
+		}
+		return {
+			param: formParam,
+			msg: msg,
+			value: value
+		}
+	}
+}))
 
 // get homepage
 app.get('/', function(req, res){
