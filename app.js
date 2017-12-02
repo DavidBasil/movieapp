@@ -3,8 +3,10 @@ var path = require('path')
 var mongoose = require('mongoose')
 var bodyParser = require('body-parser')
 var session = require('express-session')
+var passport = require('passport')
+var config = require('./config/database')
 
-mongoose.connect('mongodb://localhost/movieapp')
+mongoose.connect(config.database)
 var db = mongoose.connection
 
 // check connection
@@ -42,6 +44,10 @@ app.use(session({
 	saveUninitialized: true
 }))
 
+// passport
+require('./config/passport')(passport)
+app.use(passport.initialize())
+app.use(passport.session())
 
 // get homepage
 app.get('/', function(req, res){
@@ -57,82 +63,12 @@ app.get('/', function(req, res){
 	})
 })
 
-// get article page
-app.get('/articles/add', function(req, res){
-	res.render('add-article', {
-		"title": "Add Article"
-	})	
-})
+// route files
+var articles = require('./routes/articles')
+var users = require('./routes/users')
+app.use('/articles', articles)
+app.use('/users', users)
 
-// get a single article
-app.get('/article/:id', function(req, res){
-	Article.findById(req.params.id, function(err, article){
-		res.render('article', {
-			"article": article
-		})
-	})
-})
-
-// get edit article page
-app.get('/article/edit/:id', function(req, res){
-	Article.findById(req.params.id, function(err, article){
-		res.render('edit-article', {
-			"title": "Edit an article",
-			"article": article
-		})
-	})
-})
-
-// post edit article page
-app.post('/articles/edit/:id', function(req, res){
-	var article = {}
-	article.title = req.body.title
-	article.author = req.body.author
-	article.body = req.body.body
-	var query = {_id: req.params.id}
-	Article.update(query, article, function(err){
-		if(err){
-			console.log(err)
-			return
-		} else {
-			res.redirect('/')
-		}
-	})
-})
-
-// delete article
-app.delete('/article/:id', function(req, res){
-	var query = {_id: req.params.id}
-	Article.remove(query, function(err){
-		if(err){
-			console.log(err)
-		}
-		res.send('Success')
-	})
-})
-
-// post article
-app.post('/articles/add', function(req, res){
-	if (errors){
-		res.render('add-article', {
-			title: "Add Article",
-			errors: errors
-		})
-	} else {
-		var article = new Article()
-		article.title = req.body.title
-		article.author = req.body.author
-		article.body = req.body.body
-		article.save(function(err){
-			if(err){
-				console.log(err)
-				return
-			} else {
-				res.redirect('/')
-			}
-		})
-	}
-})
 
 app.listen(3000, function(){
 	console.log('Server running on port 3000...')

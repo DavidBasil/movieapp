@@ -1,0 +1,40 @@
+<%- include partials/head %>
+<div class="uk-container">
+	<h2>Register</h2>
+	<form method="post" action="/users/register" class="uk-from-stacked">
+		<div class="uk-margin-small">
+			<label class="uk-form-label">Name</label>	
+			<div class="uk-form-controls">
+				<input type="text" name="name" class="uk-input uk-width-medium" required>
+			</div><!-- /uk-form-controls -->
+		</div><!-- /uk-margin -->
+		<div class="uk-margin-small">
+			<label class="uk-form-label">Email</label>	
+			<div class="uk-form-controls">
+				<input type="email" name="email" class="uk-input uk-width-medium" required>
+			</div><!-- /uk-form-controls -->
+		</div><!-- /uk-margin -->
+		<div class="uk-margin-small">
+			<label class="uk-form-label">Username</label>	
+			<div class="uk-form-controls">
+				<input type="text" name="username" class="uk-input uk-width-medium" required>
+			</div><!-- /uk-form-controls -->
+		</div><!-- /uk-margin-small -->
+		<div class="uk-margin-small">
+			<label class="uk-form-label">Password</label>	
+			<div class="uk-form-controls">
+				<input type="password" name="password" class="uk-input uk-width-medium" required>
+			</div><!-- /uk-form-controls -->
+		</div><!-- /uk-margin-small -->
+		<div class="uk-margin-small">
+			<label class="uk-form-label">Confrim password</label>	
+			<div class="uk-form-controls">
+				<input type="password" name="password2" class="uk-input uk-width-medium" required>
+			</div><!-- /uk-form-controls -->
+		</div>
+		<!-- /uk-margin -->
+		<input type="submit" value="Submit" class="uk-button uk-button-primary uk-margin-small-top">
+	</form>
+
+</div><!-- /uk-container -->
+<%- include partials/footer %>
