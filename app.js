@@ -2,8 +2,6 @@ var express = require('express')
 var path = require('path')
 var mongoose = require('mongoose')
 var bodyParser = require('body-parser')
-var expressValidator = require('express-validator')
-var flash = require('connect-flash')
 var session = require('express-session')
 
 mongoose.connect('mongodb://localhost/movieapp')
@@ -40,34 +38,10 @@ app.set('view engine', 'ejs')
 // sessions
 app.use(session({
 	secret: 'my secret',
-	resave: false,
-	saveUninitialized: true,
-	cookie: { secure: true }
+	resave: true,
+	saveUninitialized: true
 }))
 
-// messages
-app.use(require('connect-flash')())
-app.use(function(req, res, next){
-	res.locals.messages = require('epxress-messages')(req, res)
-	next()
-})
-
-// validator
-app.use(expressValidator({
-	errorFormatter: function(param, msg, value){
-		var namespace = param.split('.'),
-			root = namespace.shift()
-			formParam = root
-		while(namespace.length){
-			formParam += '[' + namespace.shift() + ']'
-		}
-		return {
-			param: formParam,
-			msg: msg,
-			value: value
-		}
-	}
-}))
 
 // get homepage
 app.get('/', function(req, res){
@@ -139,18 +113,25 @@ app.delete('/article/:id', function(req, res){
 
 // post article
 app.post('/articles/add', function(req, res){
-	var article = new Article()
-	article.title = req.body.title
-	article.author = req.body.author
-	article.body = req.body.body
-	article.save(function(err){
-		if(err){
-			console.log(err)
-			return
-		} else {
-			res.redirect('/')
-		}
-	})
+	if (errors){
+		res.render('add-article', {
+			title: "Add Article",
+			errors: errors
+		})
+	} else {
+		var article = new Article()
+		article.title = req.body.title
+		article.author = req.body.author
+		article.body = req.body.body
+		article.save(function(err){
+			if(err){
+				console.log(err)
+				return
+			} else {
+				res.redirect('/')
+			}
+		})
+	}
 })
 
 app.listen(3000, function(){
